@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Balaji Y — IT & ML Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <nav class="nav" id="navbar">
+    <div class="nav-logo">BY</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#certifications">Certs</a></li>
+      <li><a href="#contact" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#certifications">Certifications</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <div class="blob blob1"></div>
+      <div class="blob blob2"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-tag"><span class="dot"></span> Available for Opportunities</div>
+      <h1 class="hero-name">Balaji<br/><span class="accent">Y.</span></h1>
+      <p class="hero-sub">Information Technology &amp; DevOps Engineer</p>
+      <p class="hero-desc">Third-year B.Tech IT student at Dr. MCET, Coimbatore. Building intelligent systems at the intersection of DevOps and Full-Stack Engineering.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="resume.pdf" class="btn-outline" target="_blank">Download CV</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">3+</span><span class="stat-label">Projects</span></div>
+        <div class="stat-div"></div>
+        <div class="stat"><span class="stat-num">3+</span><span class="stat-label">Certifications</span></div>
+        <div class="stat-div"></div>
+        <div class="stat"><span class="stat-num">8.0</span><span class="stat-label">CGPA</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="avatar-ring">
+        <div class="avatar-inner">BY</div>
+      </div>
+      <div class="floating-card fc2"><span class="fc-icon">🗄️</span><span>Hostel MGMT System</span></div>
+      <div class="floating-card fc3"><span class="fc-icon">📊</span><span>Agentic RAG</span></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-label">WHO I AM</div>
+      <h2 class="section-title">About Me</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>I'm a Third-year <strong>B.Tech Information Technology</strong> student at Dr. Mahalingam College of Engineering and Technology (Dr. MCET), Coimbatore, Tamil Nadu.</p>
+          <p>My passion lies in building intelligent, scalable full-stack web applications backed by relational databases.</p>
+          <p>I have hands-on experience across the full software lifecycle: system design, database modelling, RESTful APIs, and polished frontends.</p>
+          <div class="about-chips">
+            <span class="chip">Full-Stack Dev</span>
+            <span class="chip">Database Design</span>
+            <span class="chip">Agentic AI</span>
+            <span class="chip">Data Structures</span>
+          </div>
+        </div>
+        <div class="about-card-stack">
+          <div class="info-card"><div class="info-icon">🎓</div><div><div class="info-label">Education</div><div class="info-value">Dr. MCET, Coimbatore</div><div class="info-sub">B.Tech IT — 2022–2026</div></div></div>
+          <div class="info-card"><div class="info-icon">📍</div><div><div class="info-label">Location</div><div class="info-value">Coimbatore, Tamil Nadu</div><div class="info-sub">Open to Remote &amp; Relocation</div></div></div>
+          <div class="info-card"><div class="info-icon">💡</div><div><div class="info-label">Focus Areas</div><div class="info-value">ML Engineering</div><div class="info-sub">+ Full-Stack Development</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section dark-section" id="projects">
+    <div class="container">
+      <div class="section-label light">WHAT I'VE BUILT</div>
+      <h2 class="section-title light">Projects</h2>
+      <div class="projects-grid" id="projectsGrid">
+        <div class="loading-msg">Loading projects from API...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section" id="skills">
+    <div class="container">
+      <div class="section-label">WHAT I KNOW</div>
+      <h2 class="section-title">Technical Skills</h2>
+      <div class="skills-layout">
+        <div class="skill-category"><h3>Languages</h3><div class="skill-bars" id="langSkills"></div></div>
+        <div class="skill-category"><h3>Frameworks &amp; Tools</h3><div class="skill-tags" id="frameworkSkills"></div></div>
+        <div class="skill-category"><h3>Databases</h3><div class="skill-tags" id="dbSkills"></div></div>
+        <div class="skill-category"><h3>Core CS Subjects</h3><div class="skill-tags" id="csSkills"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section class="section tinted-section" id="certifications">
+    <div class="container">
+      <div class="section-label">CREDENTIALS</div>
+      <h2 class="section-title">Certifications</h2>
+      <div class="cert-grid" id="certGrid"></div>
+    </div>
+  </section>
+
+  <!-- EXTRACURRICULAR -->
+  <section class="section" id="extra">
+    <div class="container">
+      <div class="section-label">BEYOND ACADEMICS</div>
+      <h2 class="section-title">Extracurriculars</h2>
+      <div class="extra-grid" id="extraGrid"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section dark-section" id="contact">
+    <div class="container">
+      <div class="section-label light">GET IN TOUCH</div>
+      <h2 class="section-title light">Contact Me</h2>
+      <div class="contact-layout">
+        <div class="contact-info">
+          <p class="contact-desc">Open to internships, full-time roles, and collaboration on ML or software projects. Let's build something great!</p>
+          <div class="contact-links">
+            <a href="mailto:balaji@example.com" class="contact-link"><span class="cl-icon">✉️</span><span>balaji@example.com</span></a>
+            <a href="https://linkedin.com/in/balajiy" class="contact-link" target="_blank"><span class="cl-icon">💼</span><span>linkedin.com/in/balajiy</span></a>
+            <a href="https://github.com/balajiy" class="contact-link" target="_blank"><span class="cl-icon">🐙</span><span>github.com/balajiy</span></a>
+          </div>
+        </div>
+        <form class="contact-form" id="contactForm">
+          <input type="text" placeholder="Your Name" id="cfName" required/>
+          <input type="email" placeholder="Your Email" id="cfEmail" required/>
+          <textarea placeholder="Your Message" id="cfMessage" rows="4" required></textarea>
+          <button type="submit" class="btn-primary full-width">Send Message</button>
+          <div class="form-status" id="formStatus"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 Balaji Y — Built with HTML, CSS, JS + Node.js/Express + MongoDB</p>
+      <p class="footer-sub">Deployed on Netlify (Frontend) + Render (Backend) · Source on GitHub</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
