@@ -1,18 +1,24 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const dotenv = require('dotenv');
-dotenv.config();
+require('dotenv').config();
 
 const app = express();
+const PORT = process.env.PORT || 8000;
+const MONGO_URI = process.env.MONGO_URI;
+
+// Log startup info immediately
+console.log('🚀 Starting server...');
+console.log('PORT:', PORT);
+console.log('MONGO_URI exists:', !!MONGO_URI);
 
 // ===== MIDDLEWARE =====
-app.use(cors({ origin: ['http://localhost:3000', 'http://127.0.0.1:5500', 'https://balajiy.netlify.app'] }));
+app.use(cors());
 app.use(express.json());
 
-// ===== MONGOOSE SCHEMAS =====
+// ===== SCHEMAS =====
 const projectSchema = new mongoose.Schema({
-  title: { type: String, required: true },
+  title: String,
   emoji: String,
   description: String,
   tags: [String],
@@ -24,9 +30,9 @@ const projectSchema = new mongoose.Schema({
 });
 
 const contactSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true },
-  message: { type: String, required: true },
+  name: String,
+  email: String,
+  message: String,
   read: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now }
 });
@@ -34,7 +40,7 @@ const contactSchema = new mongoose.Schema({
 const Project = mongoose.model('Project', projectSchema);
 const Contact = mongoose.model('Contact', contactSchema);
 
-// ===== SEED DATA (runs if DB is empty) =====
+// ===== SEED DATA =====
 async function seedIfEmpty() {
   const count = await Project.countDocuments();
   if (count > 0) return;
@@ -44,32 +50,31 @@ async function seedIfEmpty() {
       emoji: "🤖",
       description: "Reinforcement learning environment using Q-learning to detect fraudulent transactions. Custom OpenAI Gym environment with real-time matplotlib dashboard.",
       tags: ["Python", "Q-Learning", "OpenAI Gym", "Matplotlib"],
-      github: "https://github.com/balajiy/rl-fraud-detection",
+      github: "https://github.com/Balajiyuvi06/-portfolio",
       featured: true, order: 1
     },
     {
       title: "Hostel Management System",
       emoji: "🏨",
-      description: "Full-stack desktop application for hostel administration. 7-table MySQL schema, Java Swing GUI, JDBC connectivity, room & fee management.",
-      tags: ["Java", "MySQL", "JDBC", "Swing", "NetBeans"],
-      github: "https://github.com/balajiy/hostel-management",
+      description: "Full-stack desktop application for hostel administration. 7-table MySQL schema, Java Swing GUI, JDBC connectivity.",
+      tags: ["Java", "MySQL", "JDBC", "Swing"],
+      github: "https://github.com/Balajiyuvi06/-portfolio",
       featured: true, order: 2
     },
     {
       title: "Agentic RAG System",
       emoji: "🧠",
-      description: "Research presentation on the full taxonomy of RAG systems covering agentic patterns, LangChain, LlamaIndex, and iterative retrieval.",
+      description: "Research on RAG systems covering agentic patterns, LangChain, LlamaIndex, and iterative retrieval.",
       tags: ["LangChain", "LlamaIndex", "Python", "RAG"],
-      github: "https://github.com/balajiy/agentic-rag",
+      github: "https://github.com/Balajiyuvi06/-portfolio",
       order: 3
     },
     {
       title: "Personal Portfolio Website",
       emoji: "🌐",
-      description: "This site! Full-stack portfolio with HTML/CSS/JS frontend, Node.js/Express API, MongoDB database. Deployed on Netlify + Render.",
+      description: "Full-stack portfolio with HTML/CSS/JS frontend, Node.js/Express API, MongoDB database.",
       tags: ["HTML", "CSS", "JS", "Node.js", "Express", "MongoDB"],
-      github: "https://github.com/balajiy/portfolio",
-      demo: "https://balajiy.netlify.app",
+      github: "https://github.com/Balajiyuvi06/-portfolio",
       featured: true, order: 4
     }
   ]);
@@ -77,18 +82,18 @@ async function seedIfEmpty() {
 }
 
 // ===== ROUTES =====
+app.get('/', (req, res) => res.json({ message: 'Balaji Portfolio API is running!' }));
+app.get('/api/health', (req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
 
-// GET /api/projects — fetch all projects sorted by order
 app.get('/api/projects', async (req, res) => {
   try {
-    const projects = await Project.find().sort({ order: 1, createdAt: -1 });
+    const projects = await Project.find().sort({ order: 1 });
     res.json(projects);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch projects' });
+    res.status(500).json({ error: err.message });
   }
 });
 
-// POST /api/projects — add a new project (admin use)
 app.post('/api/projects', async (req, res) => {
   try {
     const project = new Project(req.body);
@@ -99,66 +104,43 @@ app.post('/api/projects', async (req, res) => {
   }
 });
 
-// GET /api/projects/:id — single project
-app.get('/api/projects/:id', async (req, res) => {
-  try {
-    const project = await Project.findById(req.params.id);
-    if (!project) return res.status(404).json({ error: 'Not found' });
-    res.json(project);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch project' });
-  }
-});
-
-// DELETE /api/projects/:id
-app.delete('/api/projects/:id', async (req, res) => {
-  try {
-    await Project.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Deleted' });
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to delete' });
-  }
-});
-
-// POST /api/contact — save contact form submission
 app.post('/api/contact', async (req, res) => {
   try {
     const { name, email, message } = req.body;
     if (!name || !email || !message) return res.status(400).json({ error: 'All fields required' });
     const contact = new Contact({ name, email, message });
     await contact.save();
-    res.status(201).json({ message: 'Message received! Thank you.' });
+    res.status(201).json({ message: 'Message received!' });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to save message' });
+    res.status(500).json({ error: err.message });
   }
 });
 
-// GET /api/contact — fetch all messages (admin)
 app.get('/api/contact', async (req, res) => {
   try {
     const messages = await Contact.find().sort({ createdAt: -1 });
     res.json(messages);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch messages' });
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Health check
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+// ===== START SERVER FIRST, THEN CONNECT DB =====
+// This ensures Render sees the port binding immediately
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`✅ Server listening on port ${PORT}`);
 });
 
-// ===== DB + SERVER START =====
-const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/portfolio';
-
-mongoose.connect(MONGO_URI)
-  .then(async () => {
-    console.log('✅ MongoDB connected:', MONGO_URI.includes('localhost') ? 'local' : 'Atlas');
-    await seedIfEmpty();
-    app.listen(PORT, () => console.log(`🚀 Server running at http://localhost:${PORT}`));
-  })
-  .catch(err => {
-    console.error('❌ MongoDB connection failed:', err.message);
-    process.exit(1);
-  });
+// Connect to MongoDB after server starts
+if (!MONGO_URI) {
+  console.error('❌ MONGO_URI environment variable is not set!');
+} else {
+  mongoose.connect(MONGO_URI)
+    .then(async () => {
+      console.log('✅ MongoDB connected successfully');
+      await seedIfEmpty();
+    })
+    .catch(err => {
+      console.error('❌ MongoDB connection error:', err.message);
+    });
+}
